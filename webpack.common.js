@@ -1,14 +1,18 @@
 const path = require('path')
 const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        frontend:[
+        frontend: [
             path.resolve(__dirname, "apps/static/js/frontend/index.js"),
             path.resolve(__dirname, "apps/static/scss/frontend/index.scss")
+        ],
+        account: [
+            path.resolve(__dirname, "apps/static/js/account/index.js"),
+            path.resolve(__dirname, "apps/static/scss/account/index.scss")
         ]
     },
     output: {
@@ -25,13 +29,18 @@ module.exports = {
                     "css-loader",
                     "sass-loader"
                 ]
-            }
+            },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+            },
         ]
     },
     plugins: [
         new webpack.ProgressPlugin(),
         new CleanWebpackPlugin(),
-        new BundleTracker(options={
+        new BundleTracker(options = {
             filename: "./webpack-stats.json",
             publicPath: '/static/dist/'
         }),

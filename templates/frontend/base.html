@@ -1,21 +1,14 @@
+{% extends "../base.html" %}
 {% load render_bundle from webpack_loader %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block 'title' %}{% endblock %}</title>
-    <link rel="icon" href="{% static 'images/common/favicon.png' %}">
-    {% render_bundle 'frontend' 'css' %}
-</head>
-<body data-page={% block 'data-page' %}'["HomePage"]'{% endblock %}>
-<main>
-    {% include '../header.html' %}
-    {% block 'content' %}
-    {% endblock %}
 
-</main>
-{% include '../footer.html' %}
-{% render_bundle 'frontend' 'js' %}
-</body>
-</html>
+{% block render_css %}{% render_bundle 'frontend' 'css' %}{% endblock %}
+{% block render_js %}{% render_bundle 'frontend' 'js' %}{% endblock %}
+
+{% block 'header' %}{% include "./header.html" %}{% endblock %}
+{% block 'footer' %}{% include "./footer.html" %}{% endblock %}
+
+
+{# to be defined by child #}
+{% block 'title' %}{% endblock %}
+{% block 'data-page' %}'[]'{% endblock %}
+{% block 'content' %}{% endblock %}
